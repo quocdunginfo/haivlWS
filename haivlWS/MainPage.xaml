@@ -1,0 +1,58 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:haivlWS"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:UI="using:Microsoft.Advertising.WinRT.UI"
+    x:Class="haivlWS.MainPage"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+            <Grid Name="mainView" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
+                <FlipView x:Name="flipView1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="1" BorderBrush="#FF83B9A3" SelectionChanged="flipView1_SelectionChanged" HorizontalContentAlignment="Stretch" Background="Black" Grid.Row="0" Grid.Column="0" Style="{StaticResource FlipViewStyle1}"/>
+                <!-- Video PLay button -->
+                <Image Name="btnPlay" Visibility="Collapsed" Source="Assets/mICON/play.jpg" Width="100" Height="100" VerticalAlignment="Center" HorizontalAlignment="Stretch" Canvas.ZIndex="10" Tapped="btnPlay_Tapped"  />
+                <Image Name="btnStopVideo" Visibility="Collapsed" Width="100" Height="100" VerticalAlignment="Top" HorizontalAlignment="Right" Canvas.ZIndex="20" Source="Assets/mICON/StopVideo.png" Tapped="btnStopVideo_Tapped" />
+            </Grid>
+            
+            <Grid Grid.Column="1" Grid.Row="0" Background="White">
+                <WebView x:Name="webView_fb"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Source="Assets/blank.html" />
+            </Grid>
+
+        </Grid>
+
+        <Grid VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" >
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Grid.Column="0" Grid.Row="0" x:Name="txtTitle" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="[Title]" FontSize="18" TextAlignment="Center" Margin="0,3,0,0"/>
+            <Image HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" x:Name="newCAT" Source="Assets/mICON/new.png" Tapped="newCAT_Tapped" ></Image>
+            <Image HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" x:Name="hotCAT" Source="Assets/mICON/hot.jpg" Tapped="hotCAT_Tapped" ></Image>
+        </Grid>
+    </Grid>
+</Page>
