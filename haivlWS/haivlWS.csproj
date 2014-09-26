@@ -123,15 +123,18 @@
     <None Include="haivlWS_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\mICON\back.png" />
     <Content Include="Assets\blank.html" />
     <Content Include="Assets\Logo.scale-100.png" />
     <Content Include="Assets\mICON\hot.jpg" />
     <Content Include="Assets\mICON\play.jpg" />
     <Content Include="Assets\mICON\new.png" />
+    <Content Include="Assets\mICON\old.png" />
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\mICON\StopVideo.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
+    <Content Include="Assets\mICON\vote.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

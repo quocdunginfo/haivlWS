@@ -30,7 +30,7 @@ namespace haivlWS
         //current PhotoItem
         private PhotoItem current = new PhotoItem();
         //current photo index
-        private int current_index = 0;
+        private int current_index = -1;
         //current page segment
         private int current_page_index = 0;
        //
@@ -38,19 +38,7 @@ namespace haivlWS
         public MainPage()
         {
             this.InitializeComponent();
-            //load in backgroud
-            loadMoreDataSegment();
         }
-        private void initNewSession(String type="new")
-        {
-            current = new PhotoItem();
-            current_index = 0;
-            current_page_index = 0;
-            current_type = type;
-            //clear flip view
-            flipView1.Items.Clear();
-        }
-
 
         private async void loadMoreDataSegment()
         {
@@ -75,7 +63,7 @@ namespace haivlWS
                             flipView1.Items.Add(convertPhotoItem(item));
                             Debug.WriteLine("Item added" + flipView1.Items.Count);
                         }
-                        //force refresh flipview                        
+                        
                     }
                 }
             );
@@ -100,18 +88,6 @@ namespace haivlWS
             sv.Content = img;
             sv.Tag = pt;
             return sv;
-        }
-        private class mContainer
-        {
-            private BitmapImage bi { get; set; }
-            private ScrollViewer sv { get; set; }
-            private Image img { get; set; }
-            public mContainer(BitmapImage bi, ScrollViewer sv, Image img)
-            {
-                this.bi = bi;
-                this.sv = sv;
-                this.img = img;
-            }
         }
 
         private void img_Tapped(object sender, TappedRoutedEventArgs e)
@@ -170,7 +146,8 @@ namespace haivlWS
                     sv.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
                     sv.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex);
             }
@@ -212,9 +189,9 @@ namespace haivlWS
                 ScrollViewer sv = fv.SelectedItem as ScrollViewer;
                 Image img = sv.Content as Image;
                 
-                current = (sv.Tag as PhotoItem);
-                
-                if((img.Source as BitmapImage).PixelWidth>0)
+                current = (img.Tag as PhotoItem);
+
+                if ((img.Source as BitmapImage).PixelWidth > 0)
                 {
                     //hinh da duoc load roi
                     Debug.WriteLine("");
@@ -308,25 +285,66 @@ namespace haivlWS
             }
         }
 
-        private void flipView1_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            
-        }
-
         private void hotCAT_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            //init new session
-            initNewSession(mHAIVL.HOT);
-            //Loi bat dong bo
-            loadMoreDataSegment();
+            this.Frame.Navigate(typeof(MainPage), mHAIVL.HOT);
         }
 
         private void newCAT_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            //init new session
-            initNewSession(mHAIVL.NEW);
-            
+            this.Frame.Navigate(typeof(MainPage), mHAIVL.NEW);
+        }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            //clear backstage
+            this.Frame.BackStack.Clear();
+            //prepare param
+            var type = e.Parameter;
+            if (type != null && !type.ToString().Equals(""))
+            {
+                current_type = type.ToString();
+            }
+            //load in backgroud
             loadMoreDataSegment();
+            
+            //set back btn
+            //if (this.Frame.CanGoBack)
+            //{
+            //    btnBack.Visibility = Visibility.Visible;
+            //}
+            //else
+            //{
+            //    btnBack.Visibility = Visibility.Collapsed;
+            //}
+        }
+
+        private void btnBack_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            //if (this.Frame.CanGoBack)
+            //{
+            //    this.Frame.GoBack();
+            //}
+        }
+
+        private void voteCAT_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(MainPage), mHAIVL.VOTE);
+        }
+
+        private void flipView1_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            switch(e.Key)
+            {
+                case Windows.System.VirtualKey.Menu:
+                    e.Handled = true;
+                    break;
+            }
+        }
+
+        private void oldCAT_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(MainPage), mHAIVL.OLD);
         }
     }
 }

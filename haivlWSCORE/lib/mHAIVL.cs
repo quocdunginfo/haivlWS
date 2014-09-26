@@ -15,6 +15,7 @@ namespace haivlWSCORE
         public static string NEW = "new";
         public static string VOTE = "vote";
         public static string HOT = "hot";
+        public static string OLD = "old";
 
         private static string getPageURL(String type="new", int page = 1)
         {

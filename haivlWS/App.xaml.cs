@@ -45,7 +45,9 @@ namespace haivlWS
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                this.DebugSettings.EnableFrameRateCounter = true;
+                //quocdunginfo
+                this.DebugSettings.EnableFrameRateCounter = false;
+                //this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
 
