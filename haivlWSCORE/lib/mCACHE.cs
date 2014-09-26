@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Windows.UI.Xaml.Media.Imaging;
@@ -59,6 +60,7 @@ namespace haivlWSCORE
                 collection.Remove(url);
             }
             collection.Add(url, image);
+            Debug.WriteLine("mCACHE: "+collection.Count);
         }
         /// <summary>
         /// clear memory

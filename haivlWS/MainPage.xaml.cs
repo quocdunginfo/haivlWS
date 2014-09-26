@@ -60,8 +60,11 @@ namespace haivlWS
                         //add to flip view
                         foreach (var item in caller.Result)
                         {
-                            flipView1.Items.Add(convertPhotoItem(item));
-                            Debug.WriteLine("Item added" + flipView1.Items.Count);
+                            if (flipView1 != null)
+                            {
+                                flipView1.Items.Add(convertPhotoItem(item));
+                                Debug.WriteLine("Item added" + flipView1.Items.Count);
+                            }
                         }
                         
                     }
@@ -299,6 +302,8 @@ namespace haivlWS
             base.OnNavigatedTo(e);
             //clear backstage
             this.Frame.BackStack.Clear();
+            //do not cache on current page, reserve for next navigation
+            this.NavigationCacheMode = NavigationCacheMode.Disabled;
             //prepare param
             var type = e.Parameter;
             if (type != null && !type.ToString().Equals(""))
@@ -307,24 +312,11 @@ namespace haivlWS
             }
             //load in backgroud
             loadMoreDataSegment();
-            
-            //set back btn
-            //if (this.Frame.CanGoBack)
-            //{
-            //    btnBack.Visibility = Visibility.Visible;
-            //}
-            //else
-            //{
-            //    btnBack.Visibility = Visibility.Collapsed;
-            //}
         }
 
         private void btnBack_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            //if (this.Frame.CanGoBack)
-            //{
-            //    this.Frame.GoBack();
-            //}
+
         }
 
         private void voteCAT_Tapped(object sender, TappedRoutedEventArgs e)
@@ -334,17 +326,23 @@ namespace haivlWS
 
         private void flipView1_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            switch(e.Key)
-            {
-                case Windows.System.VirtualKey.Menu:
-                    e.Handled = true;
-                    break;
-            }
+            
         }
 
         private void oldCAT_Tapped(object sender, TappedRoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(MainPage), mHAIVL.OLD);
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            //Do chua release resource nen gay cham khi chuyen page
+            //Khi thoat khoi page hien tai
+            flipView1.Items.Clear();
+            mCACHE.release();
+            flipView1 = null;
+            webView_fb = null;
         }
     }
 }
