@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -98,11 +99,9 @@ namespace haivlWSCORE
             }
         }
 
-        public BitmapImage ROOT_IMAGE
+        public BitmapImage getRootImage()
         {
-            get
-            {
-                //return null;
+            //return null;
                 if (!isVideo)
                 {
                     if (mCACHE.get(root_image_url) == null)
@@ -113,23 +112,19 @@ namespace haivlWSCORE
                     }
                 }
                 return mCACHE.get(root_image_url);
-            }
         }
 
         private String cache_VIDEO_URL = null;
-        public String VIDEO_URL
+        public String getVideoUrl()
         {
-            get
+            if (cache_VIDEO_URL == null)
             {
-                if (cache_VIDEO_URL == null)
+                if (isVideo)
                 {
-                    if (isVideo)
-                    {
-                        cache_VIDEO_URL = mHAIVL.getRootImageUrl(root_image_url).Result + "&autoplay=1";
-                    }
+                    cache_VIDEO_URL = mHAIVL.getRootImageUrl(root_image_url).Result + "&autoplay=1";
                 }
-                return cache_VIDEO_URL;
             }
+            return cache_VIDEO_URL;
         }
         public String getFbIframe(int numposts = 10, int width = 600, int height = 800)
         {

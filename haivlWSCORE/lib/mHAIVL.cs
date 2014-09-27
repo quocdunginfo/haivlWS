@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace haivlWSCORE
@@ -16,7 +17,10 @@ namespace haivlWSCORE
         public static string VOTE = "vote";
         public static string HOT = "hot";
         public static string OLD = "old";
-
+        /// <summary>
+        /// Số item trên mỗi trang
+        /// </summary>
+        public static int _PAGE_SEGMENT = 5;
         private static string getPageURL(String type="new", int page = 1)
         {
             return domain + "/" + type + "/" + page;
@@ -28,13 +32,20 @@ namespace haivlWSCORE
         /// <param name="type"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        public static async Task<List<PhotoItem>> getPhoto(String type="new", int page = 1)
+        public static async Task<List<PhotoItem>> getPhoto(String type="new", int page = 1, CancellationToken cancelGateway=new CancellationToken())
         {
             try
             {
                 HtmlDocument doc = new HtmlDocument();
-                doc.LoadHtml(await mHTTP.getHTML(getPageURL(type, page)).ConfigureAwait(false));
-
+                string html = await mHTTP.getHTML(getPageURL(type, page), cancelGateway).ConfigureAwait(false);
+                //get html fail
+                if(html==null || html.Equals(""))
+                {
+                    return new List<PhotoItem>();
+                }
+                //parse html
+                doc.LoadHtml(html);
+                //query
                 var list = doc.DocumentNode.Descendants("div")
                     .Where(
                     c =>
@@ -99,11 +110,18 @@ namespace haivlWSCORE
         /// </summary>
         /// <param name="haivl_link"></param>
         /// <returns></returns>
-        public static async Task<string> getRootImageUrl(string haivl_link = "")
+        public static async Task<string> getRootImageUrl(string haivl_link = "", CancellationToken cancelGateway=new CancellationToken())
         {
             HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml( await mHTTP.getHTML(haivl_link).ConfigureAwait(false));
-
+            string html = await mHTTP.getHTML(haivl_link,cancelGateway).ConfigureAwait(false);
+            //get html fail
+            if (html == null || html.Equals(""))
+            {
+                return "";
+            }
+            //parse html
+            doc.LoadHtml( await mHTTP.getHTML(haivl_link, cancelGateway).ConfigureAwait(false));
+            //query
             var item = doc.DocumentNode.Descendants("div").Where(
                 c=>
                     c.Attributes.Contains("class")

@@ -17,6 +17,8 @@ using haivlWSCORE;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
+using System.Threading;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -33,20 +35,57 @@ namespace haivlWS
         private int current_index = -1;
         //current page segment
         private int current_page_index = 0;
-       //
+        //
+        private int current_max_reach_index = -1;
+        //
         private string current_type = mHAIVL.NEW;
         public MainPage()
         {
             this.InitializeComponent();
         }
+        /// <summary>
+        /// Queue Task, only one task allow at the time
+        /// </summary>
+        private SemaphoreSlim taskSemaphore = new SemaphoreSlim(1);
+        CancellationTokenSource taskCancelGateway = new CancellationTokenSource();
 
-        private async void loadMoreDataSegment()
+        private List<Task<List<PhotoItem>>> tsk_list = new List<Task<List<PhotoItem>>>();
+        /// <summary>
+        /// 
+        /// </summary>
+        private async void loadMoreDataSegment(int pages=5)
         {
-            //do a task in bg
-            var tsk = mHAIVL.getPhoto(current_type, ++current_page_index);
-            await tsk.ContinueWith(
-                c =>
-                OnTaskDone(c));
+            for (int i = 0; i < pages; i++)
+            {
+                
+                //Đợi lượt
+                await taskSemaphore.WaitAsync();
+
+                //Đang là Task hiện hành
+                try
+                {
+                    //do a task in bg
+                    var tsk = mHAIVL.getPhoto(current_type, ++current_page_index, taskCancelGateway.Token);
+                    var re = await tsk;
+                    if (re.Count > 0)
+                    {
+                        OnTaskDone(tsk);
+                    }
+                    else
+                    {
+                        current_page_index--;
+                    }
+                }
+                finally
+                {
+                    //release
+                    if (taskSemaphore != null)
+                    {
+                        taskSemaphore.Release();
+                    }
+                }
+            }
+            
         }
         private async void OnTaskDone(Task<List<PhotoItem>> caller)
         {
@@ -63,10 +102,17 @@ namespace haivlWS
                             if (flipView1 != null)
                             {
                                 flipView1.Items.Add(convertPhotoItem(item));
-                                Debug.WriteLine("Item added" + flipView1.Items.Count);
+                                Debug.WriteLine("Item added: " + flipView1.Items.Count +" ["+item.root_image_url+"]");
+                                //update page status
+                                txtIndexStatus.Text = current_index + "/" + flipView1.Items.Count;
                             }
                         }
-                        
+
+                        //set focus for flipview
+                        if (flipView1 != null)
+                        {
+                            flipView1.Focus(FocusState.Programmatic);
+                        }
                     }
                 }
             );
@@ -101,10 +147,10 @@ namespace haivlWS
             if (pt.isSensitive)
             {
                 //load hd 
-                img.Source = pt.ROOT_IMAGE;
-                pt.ROOT_IMAGE.ImageOpened += new RoutedEventHandler(
+                img.Source = pt.getRootImage();
+                pt.getRootImage().ImageOpened += new RoutedEventHandler(
                     (sender3, e3) => 
-                        when_image_loaded(pt.ROOT_IMAGE,new RoutedEventArgs(), sv)
+                        when_image_loaded(pt.getRootImage(),new RoutedEventArgs(), sv)
                     );
             }
         }
@@ -173,20 +219,14 @@ namespace haivlWS
             var index = fv.SelectedIndex;
             if(index>=0)
             {
-                if (index > current_index)
+                if(index-mHAIVL._PAGE_SEGMENT >= current_max_reach_index)
                 {
-                    //Slide to next
-                    //Needed to load more
-                    if (index >= fv.Items.Count - 3)
-                    {
-                        //load in bg
-                        loadMoreDataSegment();
-                    }
+                    loadMoreDataSegment(3);
+                    //reset max
+                    current_max_reach_index = index;
                 }
-                else
-                {
-                    //Slide to prev
-                }
+
+                
                 current_index = index;
 
                 ScrollViewer sv = fv.SelectedItem as ScrollViewer;
@@ -197,13 +237,13 @@ namespace haivlWS
                 if ((img.Source as BitmapImage).PixelWidth > 0)
                 {
                     //hinh da duoc load roi
-                    Debug.WriteLine("");
+                    //Debug.WriteLine("");
                     when_image_loaded(img.Source as BitmapImage, new RoutedEventArgs(), sv);
                 }
                 else
                 {
                     //hinh chua duoc load
-                    Debug.WriteLine("");
+                    //Debug.WriteLine("");
                 }
                 //display more infor about current item
                 setInfo(current);
@@ -239,11 +279,12 @@ namespace haivlWS
                 {
                     btnPlay.Visibility = Visibility.Collapsed;
                 }
-
+                //update page status
+                txtIndexStatus.Text = current_index + "/" + flipView1.Items.Count;
                 //view fb comment
                 string iframe = pt.getFbIframe(10, (int)webView_fb.ActualWidth - 20, 8000);
 
-                webView_fb.NavigateToString(iframe);
+                //webView_fb.NavigateToString(iframe);
             }catch(Exception e)
             {
                 Debug.WriteLine(e);
@@ -259,7 +300,7 @@ namespace haivlWS
             btnPlay.Visibility = Visibility.Collapsed;
             var img = sender as Image;
             PhotoItem pt = img.Tag as PhotoItem;
-            String youtube_link = pt.VIDEO_URL;
+            String youtube_link = pt.getVideoUrl();
             //
             WebView tmp = new WebView();
             tmp.HorizontalAlignment = HorizontalAlignment.Stretch;
@@ -310,23 +351,14 @@ namespace haivlWS
             {
                 current_type = type.ToString();
             }
+
             //load in backgroud
             loadMoreDataSegment();
-        }
-
-        private void btnBack_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-
         }
 
         private void voteCAT_Tapped(object sender, TappedRoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(MainPage), mHAIVL.VOTE);
-        }
-
-        private void flipView1_KeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            
         }
 
         private void oldCAT_Tapped(object sender, TappedRoutedEventArgs e)
@@ -343,6 +375,11 @@ namespace haivlWS
             mCACHE.release();
             flipView1 = null;
             webView_fb = null;
+            
+            if(taskCancelGateway!=null)
+            {
+                taskCancelGateway.Cancel();
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -37,11 +38,25 @@ namespace haivlWSCORE
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public static async Task<string> getHTML(string url = "")
+        public static async Task<string> getHTML(string url = "", CancellationToken cancelGateway = new CancellationToken())
         {
-            var httpClient = new HttpClient();
-            var x=  await httpClient.GetStringAsync(new Uri(url)).ConfigureAwait(false);
-            return x;
+            try
+            {
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync(new Uri(url), cancelGateway);
+                var html = await response.Content.ReadAsStringAsync();
+
+                return html;
+            }catch(OperationCanceledException)
+            {
+                Debug.WriteLine("Task canceled: " + url);
+                return "";
+            }
+            catch(Exception)
+            {
+                Debug.WriteLine("Network fail: " + url);
+                return "";
+            }
         }
     }
 }
