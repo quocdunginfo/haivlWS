@@ -53,7 +53,7 @@ namespace haivlWS
         /// <summary>
         /// 
         /// </summary>
-        private async void loadMoreDataSegment(int pages=5)
+        private async void loadMoreDataSegment(int pages=7)
         {
             for (int i = 0; i < pages; i++)
             {
@@ -104,7 +104,7 @@ namespace haivlWS
                                 flipView1.Items.Add(convertPhotoItem(item));
                                 Debug.WriteLine("Item added: " + flipView1.Items.Count +" ["+item.root_image_url+"]");
                                 //update page status
-                                txtIndexStatus.Text = current_index + "/" + flipView1.Items.Count;
+                                txtIndexStatus.Text = (current_index + 1) + "/" + flipView1.Items.Count;
                             }
                         }
 
@@ -121,6 +121,9 @@ namespace haivlWS
         {
             ScrollViewer sv = new ScrollViewer();
             Image img = new Image();
+            img.MaxHeight = 100000;
+            img.MaxWidth = 100000;
+
             if (pt != null)
             {
                 img.Source = pt.DIRECT_THUMNAIL;
@@ -186,11 +189,20 @@ namespace haivlWS
                 if (rate >= 2.0)
                 {
                     img.Width = flipView1.ActualWidth / 2;
+                    img.Height = img.Width * rate;
+
+                    //prevent ERROR
+                    img.MaxWidth = 100000;
+                    img.MaxHeight = 100000;
                 }
                 else
                 {
                     img.MaxWidth = flipView1.ActualWidth - 10;
                     img.MaxHeight = flipView1.ActualHeight - 10;
+                    
+                    //
+                    img.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    img.VerticalAlignment = VerticalAlignment.Stretch;
 
                     sv.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
                     sv.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
@@ -219,9 +231,12 @@ namespace haivlWS
             var index = fv.SelectedIndex;
             if(index>=0)
             {
-                if(index-mHAIVL._PAGE_SEGMENT >= current_max_reach_index)
+                if(index-mHAIVL._PAGE_SEGMENT >= current_max_reach_index
+                    //||
+                    //index >= flipView1.Items.Count - 1
+                    )
                 {
-                    loadMoreDataSegment(3);
+                    loadMoreDataSegment(2);
                     //reset max
                     current_max_reach_index = index;
                 }
@@ -280,11 +295,11 @@ namespace haivlWS
                     btnPlay.Visibility = Visibility.Collapsed;
                 }
                 //update page status
-                txtIndexStatus.Text = current_index + "/" + flipView1.Items.Count;
+                txtIndexStatus.Text = (current_index +1) + "/" + flipView1.Items.Count;
                 //view fb comment
-                string iframe = pt.getFbIframe(10, (int)webView_fb.ActualWidth - 20, 8000);
+                string iframe = pt.getFbIframe(100, (int)webView_fb.ActualWidth - 20, 20000);
 
-                //webView_fb.NavigateToString(iframe);
+                webView_fb.NavigateToString(iframe);
             }catch(Exception e)
             {
                 Debug.WriteLine(e);

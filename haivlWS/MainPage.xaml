@@ -27,11 +27,11 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Grid Name="mainView" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
-                <FlipView x:Name="flipView1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="1" BorderBrush="#FF83B9A3" SelectionChanged="flipView1_SelectionChanged" HorizontalContentAlignment="Stretch" Background="Black" Grid.Row="0" Grid.Column="0" Style="{StaticResource FlipViewStyle1}" IsTabStop="False"/>
+            <Grid Name="mainView" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black">
+                <FlipView x:Name="flipView1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0" SelectionChanged="flipView1_SelectionChanged" HorizontalContentAlignment="Stretch" Background="Black" Grid.Row="0" Grid.Column="0" Style="{StaticResource FlipViewStyle1}" IsTabStop="False"/>
                 <!-- Video PLay button -->
-                <Image Name="btnPlay" Visibility="Collapsed" Source="Assets/mICON/play.png" Width="100" Height="100" VerticalAlignment="Center" HorizontalAlignment="Stretch" Canvas.ZIndex="10" Tapped="btnPlay_Tapped"  />
-                <Image Name="btnStopVideo" Visibility="Collapsed" Width="100" Height="100" VerticalAlignment="Top" HorizontalAlignment="Right" Canvas.ZIndex="20" Source="Assets/mICON/StopVideo.png" Tapped="btnStopVideo_Tapped" />
+                <Image Name="btnPlay" Visibility="Collapsed" Source="Assets/mICON/play.png" Width="100" VerticalAlignment="Center" HorizontalAlignment="Stretch" Canvas.ZIndex="10" Tapped="btnPlay_Tapped" Opacity="1" />
+                <Image Name="btnStopVideo" Visibility="Collapsed"  Width="50" VerticalAlignment="Top" HorizontalAlignment="Right" Canvas.ZIndex="20" Source="Assets/mICON/StopVideo.png" Tapped="btnStopVideo_Tapped" Opacity="0.5" />
             </Grid>
         </Grid>
         <StackPanel Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Orientation="Horizontal">
@@ -43,7 +43,7 @@
         <!-- Title -->
         <TextBlock Grid.Column="0" Grid.Row="0" x:Name="txtTitle" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="[Title]" FontSize="18" TextAlignment="Center" Margin="0,5,0,0"/>
         <!-- Index Status -->
-        <TextBlock Grid.Column="0" Grid.Row="0" x:Name="txtIndexStatus" HorizontalAlignment="Left" TextWrapping="Wrap" Text="[Page/Pages]" FontSize="18" TextAlignment="Center" Margin="0,5,0,0"/>
+        <TextBlock Grid.Column="0" Grid.Row="0" x:Name="txtIndexStatus" HorizontalAlignment="Left" TextWrapping="Wrap" Text="[current_item/total_items]" FontSize="18" TextAlignment="Center" Margin="0,5,0,0"/>
         <Grid Grid.Column="1" Grid.Row="1" Background="White">
             <WebView x:Name="webView_fb"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
         </Grid>

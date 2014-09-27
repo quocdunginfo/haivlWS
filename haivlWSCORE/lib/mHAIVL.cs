@@ -110,17 +110,11 @@ namespace haivlWSCORE
         /// </summary>
         /// <param name="haivl_link"></param>
         /// <returns></returns>
-        public static async Task<string> getRootImageUrl(string haivl_link = "", CancellationToken cancelGateway=new CancellationToken())
+        public static async Task<string> getRootImageUrl(string haivl_link = "")
         {
             HtmlDocument doc = new HtmlDocument();
-            string html = await mHTTP.getHTML(haivl_link,cancelGateway).ConfigureAwait(false);
-            //get html fail
-            if (html == null || html.Equals(""))
-            {
-                return "";
-            }
             //parse html
-            doc.LoadHtml( await mHTTP.getHTML(haivl_link, cancelGateway).ConfigureAwait(false));
+            doc.LoadHtml( await mHTTP.getHTML(haivl_link).ConfigureAwait(false));
             //query
             var item = doc.DocumentNode.Descendants("div").Where(
                 c=>

@@ -34,7 +34,8 @@ namespace haivlWSCORE
             }
         }
         /// <summary>
-        /// ConfigureAwait(false), cho phep goi Result ngay sau do
+        /// ConfigureAwait(false), cho phep goi Result ngay sau do,
+        /// cho pheo cancel task giua chung
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
@@ -53,6 +54,24 @@ namespace haivlWSCORE
                 return "";
             }
             catch(Exception)
+            {
+                Debug.WriteLine("Network fail: " + url);
+                return "";
+            }
+        }
+        /// <summary>
+        /// ConfigureAwait(false)
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static async Task<string> getHTML(string url = "")
+        {
+            try
+            {
+                var httpClient = new HttpClient();
+                return await httpClient.GetStringAsync(new Uri(url)).ConfigureAwait(false);
+            }
+            catch (Exception)
             {
                 Debug.WriteLine("Network fail: " + url);
                 return "";
