@@ -1,0 +1,65 @@
+﻿<Page
+    x:Class="haivlWS.Setting"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:haivlWS"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Title -->
+        <!-- Index Status -->
+        <Image Grid.Column="0" Grid.Row="0" Name="btnBack" Visibility="Visible" VerticalAlignment="Stretch" HorizontalAlignment="Left" Source="Assets/mICON/back.png" Tapped="btnBack_Tapped" Opacity="1" />
+        <TextBlock  Grid.Column="0" Grid.Row="0" x:Name="txtIndexStatus" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Cài đặt" FontSize="36" TextAlignment="Center" Margin="70,5,0,0"/>
+        <Grid Grid.Row="1" Grid.Column="0" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            
+            <Grid Height="auto" Grid.Column="0" Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Grid.Row="0" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Left" Text="1. Về ứng dụng" FontSize="24"  />
+                <TextBlock Grid.Column="0" Grid.Row="1" TextAlignment="Left" VerticalAlignment="Top" HorizontalAlignment="Left" Text="Ứng dụng HaiVL Simple giúp người dùng duyệt haivl.com" FontSize="24"  />
+                <TextBlock Grid.Column="0" Grid.Row="2" TextAlignment="Left" VerticalAlignment="Top" HorizontalAlignment="Left" Text="Copyright © 2014 quocdunginfo" FontSize="24"  />
+            </Grid>
+
+            <Grid Height="auto" Grid.Column="1" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Grid.Row="0" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Left" Text="2. Chính sách về quyền riêng tư" FontSize="24"  />
+                <WebView x:Name="webView1" Grid.Column="0" Grid.Row="1" />
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

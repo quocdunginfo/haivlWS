@@ -297,9 +297,9 @@ namespace haivlWS
                 //update page status
                 txtIndexStatus.Text = (current_index +1) + "/" + flipView1.Items.Count;
                 //view fb comment
-                string iframe = pt.getFbIframe(100, (int)webView_fb.ActualWidth - 20, 20000);
+                //string iframe = pt.getFbIframe(100, (int)webView_fb.ActualWidth - 20, 20000);
 
-                webView_fb.NavigateToString(iframe);
+                //webView_fb.NavigateToString(iframe);
             }catch(Exception e)
             {
                 Debug.WriteLine(e);
@@ -389,12 +389,16 @@ namespace haivlWS
             flipView1.Items.Clear();
             mCACHE.release();
             flipView1 = null;
-            webView_fb = null;
-            
-            if(taskCancelGateway!=null)
+            //webView_fb = null;
+
+            if (taskCancelGateway != null)
             {
                 taskCancelGateway.Cancel();
             }
+        }
+        private void btnSetting_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(Setting), current_type);
         }
     }
 }

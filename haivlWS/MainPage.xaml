@@ -34,18 +34,33 @@
                 <Image Name="btnStopVideo" Visibility="Collapsed"  Width="50" VerticalAlignment="Top" HorizontalAlignment="Right" Canvas.ZIndex="20" Source="Assets/mICON/StopVideo.png" Tapped="btnStopVideo_Tapped" Opacity="0.5" />
             </Grid>
         </Grid>
-        <StackPanel Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Orientation="Horizontal">
-            <Image HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="newCAT" Source="Assets/mICON/new.png" Tapped="newCAT_Tapped" Margin="30,0,0,0" ></Image>
+        <Grid Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
+            <Image HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="newCAT" Source="Assets/mICON/new.png" Tapped="newCAT_Tapped" Margin="0,0,0,0" ></Image>
             <Image HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="hotCAT" Source="Assets/mICON/hot.png" Tapped="hotCAT_Tapped" Margin="40,0,0,0" ></Image>
-            <Image HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="voteCAT" Source="Assets/mICON/vote.png" Tapped="voteCAT_Tapped" Margin="40,0,0,0" ></Image>
-            <Image HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="oldCAT" Source="Assets/mICON/old.png" Tapped="oldCAT_Tapped" Margin="40,0,0,0" ></Image>
-        </StackPanel>
-        <!-- Title -->
-        <TextBlock Grid.Column="0" Grid.Row="0" x:Name="txtTitle" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="[Title]" FontSize="18" TextAlignment="Center" Margin="0,5,0,0"/>
-        <!-- Index Status -->
-        <TextBlock Grid.Column="0" Grid.Row="0" x:Name="txtIndexStatus" HorizontalAlignment="Left" TextWrapping="Wrap" Text="[current_item/total_items]" FontSize="18" TextAlignment="Center" Margin="0,5,0,0"/>
-        <Grid Grid.Column="1" Grid.Row="1" Background="White">
-            <WebView x:Name="webView_fb"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+            <Image HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="voteCAT" Source="Assets/mICON/vote.png" Tapped="voteCAT_Tapped" Margin="90,0,0,0" ></Image>
+            <Image HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="oldCAT" Source="Assets/mICON/old.png" Tapped="oldCAT_Tapped" Margin="140,0,0,0" ></Image>
+            <Image HorizontalAlignment="Right" VerticalAlignment="Center"  x:Name="btnSetting" Source="Assets/mICON/setting.png" Tapped="btnSetting_Tapped" ></Image>
         </Grid>
+        <!-- Title -->
+        <TextBlock Grid.Column="0" Grid.Row="0" x:Name="txtTitle" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="[Tiêu đề]" FontSize="18" TextAlignment="Center" Margin="0,5,0,0"/>
+        <!-- Index Status -->
+        <TextBlock Grid.Column="0" Grid.Row="0" x:Name="txtIndexStatus" HorizontalAlignment="Left" TextWrapping="Wrap" Text="[mục hiện tại/tổng số mục]" FontSize="18" TextAlignment="Center" Margin="0,5,0,0"/>
+        <Grid Height="auto" Grid.Column="1" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25" />
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Grid.Row="0" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="20" Text="Bình luận trên Facebook" FontSize="14" />
+            <!--
+            <WebView Grid.Column="0" Grid.Row="1" x:Name="webView_fb"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+            -->
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" Text="Tính năng đang trong quá trình xây dựng..." FontSize="14" ></TextBlock>
+        </Grid>
+        <ProgressRing Visibility="Visible" HorizontalAlignment="Left" Margin="335,176,0,0" VerticalAlignment="Top" Height="49" Width="89" Grid.Row="1"/>
     </Grid>
 </Page>

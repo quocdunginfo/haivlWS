@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <StoreAssociation xmlns="http://schemas.microsoft.com/appx/2010/storeassociation">
   <Publisher>CN=AE392FAD-294F-48B4-B552-816F46643A93</Publisher>
-  <NamespacePrefix>57043quocdunginfo</NamespacePrefix>
   <PublisherDisplayName>quocdunginfo</PublisherDisplayName>
   <GeneratePackageHash>http://www.w3.org/2001/04/xmlenc#sha256</GeneratePackageHash>
   <SupportedLocales>
