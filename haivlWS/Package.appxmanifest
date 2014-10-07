@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
-  <Identity Name="57043quocdunginfo.HaiVLSimple" Publisher="CN=AE392FAD-294F-48B4-B552-816F46643A93" Version="1.1.0.3" />
+  <Identity Name="57043quocdunginfo.HaiVLSimple" Publisher="CN=AE392FAD-294F-48B4-B552-816F46643A93" Version="1.1.0.4" />
   <Properties>
     <DisplayName>HaiVL Simple</DisplayName>
     <PublisherDisplayName>quocdunginfo</PublisherDisplayName>

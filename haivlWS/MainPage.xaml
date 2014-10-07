@@ -56,10 +56,12 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0" Grid.Row="0" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="20" Text="Bình luận trên Facebook" FontSize="14" />
-            <!--
+            
             <WebView Grid.Column="0" Grid.Row="1" x:Name="webView_fb"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
-            -->
+            
+            <!--
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" Text="Tính năng đang trong quá trình xây dựng..." FontSize="14" ></TextBlock>
+            -->
         </Grid>
         <ProgressRing Visibility="Visible" HorizontalAlignment="Left" Margin="335,176,0,0" VerticalAlignment="Top" Height="49" Width="89" Grid.Row="1"/>
     </Grid>
